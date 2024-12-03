@@ -1,5 +1,5 @@
 import { getRefreshToken } from './auth';
-import type { PrivateUser } from './typings';
+import type { PrivateUser, Track } from './typings';
 
 async function fetchWithAuth(url: string, options = {}) {
 	// const verifier = localStorage.getItem('verifier');
