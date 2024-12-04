@@ -1,7 +1,7 @@
 import { PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
 import { base } from '$app/paths';
 
-const redirectUri = `${window.location.origin}${base}/callback`;
+const redirectUri = `https://elias-knodel.github.io/${base}/callback`;
 
 export async function redirectToAuthCodeFlow() {
 	const verifier = generateCodeVerifier(128);
