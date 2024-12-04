@@ -14,5 +14,5 @@ export const load: PageLoad = async ({ url }) => {
 		await getAccessToken(code);
 	}
 
-	redirect(302, `/${base}`);
+	redirect(302, `${base}`);
 };
