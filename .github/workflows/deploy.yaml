@@ -28,7 +28,7 @@ jobs:
           PUBLIC_SPOTIFY_CLIENT_ID: ${{ vars.GH_SPOTIFY_CLIENT_ID }}
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           path: 'build'
 
@@ -41,4 +41,4 @@ jobs:
 
     steps:
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v4
