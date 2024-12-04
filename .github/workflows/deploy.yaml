@@ -24,6 +24,7 @@ jobs:
       - name: Build project
         run: bun run build
         env:
+          BASE_PATH: '/${{ github.event.repository.name }}'
           PUBLIC_SPOTIFY_CLIENT_ID: ${{ vars.PUBLIC_SPOTIFY_CLIENT_ID }}
 
       - name: Upload artifact
