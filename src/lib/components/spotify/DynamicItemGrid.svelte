@@ -2,59 +2,77 @@
 	import { fade } from 'svelte/transition';
 	import { uppercased } from '$lib/utils';
 	import {
-		originalTopItems,
 		filteredTopItems,
-		seenAlbumState,
-		getAndFilterTopItems
+		fetchTopTrackItems,
+		removeItem,
+		topItemsTimeRange,
+		originalTopItems,
+
+		topItemsPage
+
 	} from './ItemGridHelper.svelte';
-	import { cubicInOut, cubicOut } from 'svelte/easing';
+	import { cubicInOut } from 'svelte/easing';
+	import * as m from '$lib/paraglide/messages.js';
 	import { untrack } from 'svelte';
 
-	let pageState = $state(1);
+	$effect(() => {
+		fetchTopTrackItems();
+	});
 
-	function removeItem(index: number) {
-		let switchedItem = originalTopItems.at(9);
-
-		originalTopItems.splice(9, 1);
-
-		if (switchedItem) {
-			originalTopItems.splice(index, 1, switchedItem);
-		} else {
-			originalTopItems.splice(index, 1);
+	let timeRangeOptions = $state([
+		{
+			key: 'short_term',
+			text: m.spotify_time_range_short()
+		},
+		{
+			key: 'medium_term',
+			text: m.spotify_time_range_medium()
+		},
+		{
+			key: 'long_term',
+			text: m.spotify_time_range_long()
 		}
+	]);
 
-		return null;
-	}
+	let selectedTimeRange = $state(timeRangeOptions[0]);
 
 	$effect(() => {
-		const fetchItems = async () => {
-			while (originalTopItems.length < 15) {
-				const page = untrack(() => ++pageState);
-				const newItems = await getAndFilterTopItems(seenAlbumState, page);
-
-				originalTopItems.push(...newItems);
-			}
-		};
-
-		fetchItems();
+		let rangeValue: string = selectedTimeRange.key;
+		untrack(() => (topItemsTimeRange.range = rangeValue));
+		untrack(() => (topItemsPage.reset));
+		untrack(() => (originalTopItems.reset));
 	});
 </script>
+
+<br />
+
+<div class="flex flex-inline">
+	<h1 class="text-xl">Your Jam:</h1>
+
+	<span>&emsp;&emsp;</span>
+
+	<select class="text-gray-900" bind:value={selectedTimeRange}>
+		{#each timeRangeOptions as timeRange}
+			<option value={timeRange}>
+				{timeRange.text}
+			</option>
+		{/each}
+	</select>
+</div>
+
+<br />
+<br />
+<br />
 
 {#await filteredTopItems()}
 	<span>Loading...</span>
 {:then topItems}
-	<br />
-
-	<h1 class="text-xl">Your Jam (short_term):</h1>
-
-	<br />
-
 	<div class="grid max-w-[864px] grid-cols-3">
 		{#each topItems as item, index (item.id)}
 			<section
 				onclick={() => removeItem(index)}
-				in:fade={{ duration: 1000, easing: cubicInOut }}
-				out:fade={{ duration: 0, delay: 0, }}
+				in:fade={{ duration: 700, easing: cubicInOut }}
+				out:fade={{ duration: 0, delay: 0 }}
 				aria-hidden="true"
 				class="relative isolate flex max-h-72 min-h-72 min-w-72 max-w-72 flex-col justify-end overflow-hidden px-4 pb-6 pt-36"
 			>

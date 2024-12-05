@@ -1,6 +1,7 @@
 import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from '../$types';
 import { getAccessToken, redirectToAuthCodeFlow } from '$lib/spotify/auth';
+import { base } from '$app/paths';
 
 export const ssr = false;
 
@@ -13,5 +14,5 @@ export const load: PageLoad = async ({ url }) => {
 		await getAccessToken(code);
 	}
 
-	redirect(302, '/');
+	redirect(302, `${base}`);
 };
