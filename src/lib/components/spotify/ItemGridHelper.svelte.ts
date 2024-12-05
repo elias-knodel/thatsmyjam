@@ -110,8 +110,8 @@ export function filteredTopItems() {
 
 export async function fetchTopTrackItems () {
     while (originalTopItems.items.length < 15) {
-        const page = untrack(() => topItemsPage.increment);
-        const newItems = await getAndFilterTopItems(seenAlbumState, topItemsPage.count);
+        const page = untrack(() => ++pageState);
+        const newItems = await getAndFilterTopItems(seenAlbumState, page);
 
         originalTopItems.push(newItems);
     }

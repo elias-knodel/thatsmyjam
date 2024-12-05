@@ -4,4 +4,4 @@
 
 </script>
 
-<a href="${base}/demo/paraglide">paraglide</a>
+<a href="{base}/demo/paraglide">paraglide</a>
