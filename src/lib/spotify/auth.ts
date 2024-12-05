@@ -3,6 +3,8 @@ import { base } from '$app/paths';
 
 const redirectUri = `https://elias-knodel.github.io${base}/callback`;
 
+console.log(redirectUri);
+
 export async function redirectToAuthCodeFlow() {
 	const verifier = generateCodeVerifier(128);
 	const challenge = await generateCodeChallenge(verifier);

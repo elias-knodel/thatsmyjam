@@ -36,13 +36,13 @@ export async function fetchProfile(): Promise<PrivateUser> {
 	return await result.json();
 }
 
-export async function fetchUserTopItems(page = 1): Promise<any> {
+export async function fetchUserTopItems(page: number = 1, time_range: string = "short_term"): Promise<any> {
 	const limit = 15;
 
 	page = page - 1;
 
 	const urlParameters = new URLSearchParams({
-		type: 'tracks',
+		type: time_range,
 		time_range: 'short_term',
 		limit: limit.toString(),
 		offset: (page * limit).toString()

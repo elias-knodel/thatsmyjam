@@ -1,4 +1,4 @@
-import { fetchProfile, fetchUserTopItems } from '$lib/spotify/api';
+import { fetchProfile } from '$lib/spotify/api';
 
 export const ssr = false;
 
