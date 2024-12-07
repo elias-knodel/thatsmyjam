@@ -1,9 +1,9 @@
 import { getRefreshToken } from './auth';
-import type { PrivateUser, Track } from './typings';
+import type { Paging, PrivateUser, Track } from './typings';
 
 async function fetchWithAuth(url: string, options = {}) {
 	// const verifier = localStorage.getItem('verifier');
-	const token = localStorage.getItem('access_token');
+	let token = localStorage.getItem('access_token');
 	// const refreshToken = localStorage.getItem('refresh_token');
 
 	let expiresAt: Date | string | null = localStorage.getItem('jwt_expires_at');
@@ -19,7 +19,9 @@ async function fetchWithAuth(url: string, options = {}) {
 	// }
 
 	if (!expiresAt || expiresAt < new Date()) {
+		console.log('requesting new access and refresh token');
 		getRefreshToken();
+		token = localStorage.getItem('access_token');
 	}
 
 	const result = await fetch(url, {
@@ -36,14 +38,17 @@ export async function fetchProfile(): Promise<PrivateUser> {
 	return await result.json();
 }
 
-export async function fetchUserTopItems(page: number = 1, time_range: string = "short_term"): Promise<any> {
+export async function fetchUserTopItems(
+	page: number = 1,
+	timeRange: string
+): Promise<Paging<Track>> {
 	const limit = 15;
 
 	page = page - 1;
 
 	const urlParameters = new URLSearchParams({
-		type: time_range,
-		time_range: 'short_term',
+		type: 'tracks',
+		time_range: timeRange,
 		limit: limit.toString(),
 		offset: (page * limit).toString()
 	});

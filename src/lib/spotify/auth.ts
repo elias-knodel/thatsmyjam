@@ -1,9 +1,7 @@
-import { PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
+import { PUBLIC_DOMAIN, PUBLIC_SPOTIFY_CLIENT_ID } from '$env/static/public';
 import { base } from '$app/paths';
 
-const redirectUri = `https://elias-knodel.github.io${base}/callback`;
-
-console.log(redirectUri);
+const redirectUri = PUBLIC_DOMAIN + `${base}/callback`;
 
 export async function redirectToAuthCodeFlow() {
 	const verifier = generateCodeVerifier(128);
@@ -15,7 +13,7 @@ export async function redirectToAuthCodeFlow() {
 	params.append('client_id', PUBLIC_SPOTIFY_CLIENT_ID);
 	params.append('response_type', 'code');
 	params.append('redirect_uri', redirectUri);
-	params.append('scope', 'user-top-read user-read-private user-read-email');
+	params.append('scope', 'user-top-read');
 	params.append('code_challenge_method', 'S256');
 	params.append('code_challenge', challenge);
 
@@ -46,15 +44,12 @@ export async function getAccessToken(code: string): Promise<string> {
 	localStorage.setItem('jwt_expires_at', expires_at.toISOString());
 	localStorage.setItem('access_token', resultJson.access_token);
 
-	console.log(resultJson.refresh_token);
 	localStorage.setItem('refresh_token', resultJson.refresh_token);
 
 	return resultJson.access_token;
 }
 
 export async function getRefreshToken() {
-	console.log('refreshing tokens');
-
 	// refresh token that has been previously stored
 	const refreshToken = localStorage.getItem('refresh_token');
 	const url = 'https://accounts.spotify.com/api/token';
@@ -73,17 +68,13 @@ export async function getRefreshToken() {
 	const body = await fetch(url, payload);
 	const response = await body.json();
 
-	console.log(response);
-
 	let expires_at = new Date();
 	expires_at.setTime(expires_at.getTime() + 3600 * 1000);
 
 	localStorage.setItem('jwt_expires_at', expires_at.toISOString());
 
 	localStorage.setItem('access_token', response.access_token);
-	if (response.refresh_token) {
-		localStorage.setItem('refresh_token', response.refresh_token);
-	}
+	localStorage.setItem('refresh_token', response.refresh_token);
 }
 
 function generateCodeVerifier(length: number) {

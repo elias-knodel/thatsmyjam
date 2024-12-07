@@ -24,6 +24,7 @@ jobs:
       - name: Build project
         run: bun run build
         env:
+          PUBLIC_DOMAIN: ${{ vars.GH_DOMAIN }}
           BASE_PATH: '/${{ github.event.repository.name }}'
           PUBLIC_SPOTIFY_CLIENT_ID: ${{ vars.GH_SPOTIFY_CLIENT_ID }}
 

@@ -1,6 +1,11 @@
-# sv
+# Spotify 3x3 Generator
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Roadmap:
+- [ ] Add data privacy info
+- [ ] Add "social" (github) links
+- [ ] Refine UI Shifting 
+- [ ] Better jwt / "login" status handling
+- [ ] Add function to export to image
 
 ## Developing
 
