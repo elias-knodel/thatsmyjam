@@ -29,7 +29,7 @@
 				{/if}
 			{/await}
 
-			<!-- <DynamicItemGrid /> -->
+			<DynamicItemGrid />
 			<div class="w-screen"></div>
 		</div>
 	</div>
