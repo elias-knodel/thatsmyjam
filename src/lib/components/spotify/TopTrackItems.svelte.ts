@@ -26,8 +26,6 @@ export class TopTrackItems {
 	 */
 	fetchItemsWhenBelowThreshhold() {
 		while (this.#topItems.length < 13 && !this.locked) {
-			console.log(this.locked);
-
 			this.locked = true;
 			this.fetchItemsWithFilter()
 				.then((items) => {
@@ -37,17 +35,13 @@ export class TopTrackItems {
 					++this.page;
 					this.locked = false;
 				});
-
-			console.log(this.locked);
 		}
 	}
 
 	setTimeSpan(v: string) {
 		if (v === this.timeSpan) {
-			console.log('same value', v);
 			return;
 		}
-		console.log('chaning timespan', v);
 
 		this.page = 1;
 		this.filter.clear();

@@ -1,13 +1,13 @@
+import { getUserStateContext, User, type UserState } from '$lib/auth/user.svelte';
 import { getRefreshToken } from './auth';
 import type { Paging, PrivateUser, Track } from './typings';
 
 async function fetchWithAuth(url: string, options = {}) {
-	// const verifier = localStorage.getItem('verifier');
-	let token = localStorage.getItem('access_token');
-	// const refreshToken = localStorage.getItem('refresh_token');
+	const user: UserState = JSON.parse(localStorage.getItem(User.KEY));
 
-	let expiresAt: Date | string | null = localStorage.getItem('jwt_expires_at');
-	expiresAt = expiresAt ? new Date(expiresAt) : null;
+	// const verifier = localStorage.getItem('verifier');
+	let token = user.accessToken;
+	// const refreshToken = localStorage.getItem('refresh_token')
 
 	// If there is no access token or there is no refresh token, get a new one
 	// if (!refreshToken || !verifier) {
@@ -18,11 +18,11 @@ async function fetchWithAuth(url: string, options = {}) {
 	//     getRefreshToken()
 	// }
 
-	if (!expiresAt || expiresAt < new Date()) {
-		console.log('requesting new access and refresh token');
-		getRefreshToken();
-		token = localStorage.getItem('access_token');
-	}
+	// if (!user.expiresAt || user.expiresAt < new Date()) {
+	// 	console.log('requesting new access and refresh token');
+	// 	getRefreshToken(user.refreshToken);
+	// 	token = localStorage.getItem('access_token');
+	// }
 
 	const result = await fetch(url, {
 		method: 'GET',

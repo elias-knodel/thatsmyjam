@@ -1,9 +1,10 @@
 # Spotify 3x3 Generator
 
 Roadmap:
+
 - [ ] Add data privacy info
 - [ ] Add "social" (github) links
-- [ ] Refine UI Shifting 
+- [ ] Refine UI Shifting
 - [ ] Better jwt / "login" status handling
 - [ ] Add function to export to image
 

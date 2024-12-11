@@ -4,6 +4,6 @@ export const ssr = false;
 
 export async function load() {
 	return {
-		profile: fetchProfile()
+		// profile: fetchProfile()
 	};
 }
