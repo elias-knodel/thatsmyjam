@@ -1,6 +1,5 @@
 import { browser } from '$app/environment';
-import { getRefreshToken } from '$lib/spotify/auth';
-import { getContext, setContext } from 'svelte';
+import { getRefreshToken } from '$lib/spotify/auth-tokens';
 import { SvelteDate } from 'svelte/reactivity';
 
 export interface UserState {
@@ -26,12 +25,14 @@ export class User {
 			if (item) this.data = this.deserialize(item);
 		}
 
-		$effect(() => {
-			localStorage.setItem(User.KEY, this.serialize(this.data));
-		});
+		$effect.root(() => {
+			$effect(() => {
+				localStorage.setItem(User.KEY, this.serialize(this.data));
+			});
 
-		$inspect('User logged in: ' + this.data.loggedIn);
-		// $inspect(this.data.expiresAt);
+			$inspect('User logged in: ' + this.data.loggedIn);
+			// $inspect(this.data.expiresAt);
+		});
 	}
 
 	serialize(value: UserState): string {
@@ -71,21 +72,7 @@ export class User {
 		this.data.expiresAt = null;
 		this.data.accessToken = null;
 		this.data.refreshToken = null;
-
-		console.log(this.data);
 	}
 }
 
-const USER_KEY = Symbol(User.KEY);
-
-export function setUserStateContext() {
-	const user = new User();
-
-	user.validateTime();
-
-	return setContext(USER_KEY, user);
-}
-
-export function getUserStateContext() {
-	return getContext<ReturnType<typeof setUserStateContext>>(USER_KEY);
-}
+export const userState = new User();

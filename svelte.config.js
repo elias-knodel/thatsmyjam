@@ -15,6 +15,17 @@ const config = {
 
 		paths: {
 			base: process.env.BASE_PATH ?? ''
+		},
+
+		csp: {
+			directives: {
+				'script-src': ['self']
+			},
+
+			reportOnly: {
+				'script-src': ['self'],
+				'report-uri': ['/']
+			}
 		}
 	}
 };

@@ -7,7 +7,7 @@
 		</p>
 		<p>This means everything is saved in your localstorage of your browser.</p>
 		<p>Additionally, NO external / third party scripts are implemented.</p>
-        <br>
+		<br />
 		<p>
 			This website is hosted on GITHUB pages, they may be collection data of page routing for
 			security reasons but i don't know and its not in my hands to change their behaviour.

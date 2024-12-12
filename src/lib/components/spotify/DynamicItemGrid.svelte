@@ -85,14 +85,14 @@
 {#await topTrackItemsState.filtered()}
 	<span>Loading...</span>
 {:then topItems}
-	<div id="spotify-top-items-grid" class="grid max-w-[384px] sm:max-w-[864px] grid-cols-3">
+	<div id="spotify-top-items-grid" class="grid max-w-[384px] grid-cols-3 sm:max-w-[864px]">
 		{#each topItems as item, index (item.id)}
 			<section
 				onclick={() => topTrackItemsState.removeItem(index)}
 				in:fade={{ duration: 700, easing: cubicInOut }}
 				out:fade={{ duration: 0, delay: 0 }}
 				aria-hidden="true"
-				class="relative isolate flex sm:h-72 sm:w-72 w-32 flex-col justify-end overflow-hidden sm:px-4 sm:pb-6 sm:pt-36 pt-32"
+				class="relative isolate flex w-32 flex-col justify-end overflow-hidden pt-32 sm:h-72 sm:w-72 sm:px-4 sm:pb-6 sm:pt-36"
 			>
 				<img
 					class="absolute inset-0 h-full w-full object-cover"
@@ -100,12 +100,12 @@
 					src={item?.album.images[0].url}
 				/>
 
-				<div class="sm:absolute inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-				<h3 class="hidden sm:block z-10 text-2xl font-bold text-white">{item?.name}</h3>
-				<div class="hidden sm:block z-10 gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+				<div class="inset-0 bg-gradient-to-t from-gray-900 via-gray-900/40 sm:absolute"></div>
+				<h3 class="z-10 hidden text-2xl font-bold text-white sm:block">{item?.name}</h3>
+				<div class="z-10 hidden gap-y-1 overflow-hidden text-sm leading-6 text-gray-300 sm:block">
 					{uppercased(item?.album.album_type)}: {item?.album.name}
 				</div>
-				<div class="hidden sm:block z-10 gap-y-1 overflow-hidden text-sm leading-6 text-gray-300">
+				<div class="z-10 hidden gap-y-1 overflow-hidden text-sm leading-6 text-gray-300 sm:block">
 					Aritst: {item?.artists[0].name}
 				</div>
 			</section>
@@ -120,7 +120,7 @@
 		<span>Loading...</span>
 	{:then topItems}
 		<!-- <div class="flex max-w-[864px] flex-row justify-between"> -->
-		<div class="grid max-w-[384px] sm:max-w-[864px] grid-cols-3 sm:grid-cols-4 gap-10 sm:gap-x-40">
+		<div class="grid max-w-[384px] grid-cols-3 gap-10 sm:max-w-[864px] sm:grid-cols-4 sm:gap-x-40">
 			{#each topItems as item, index (item.id)}
 				<section
 					animate:flip={{ delay: 0, duration: 300 }}

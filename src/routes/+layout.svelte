@@ -2,12 +2,12 @@
 	import { i18n } from '$lib/i18n';
 	import { ParaglideJS } from '@inlang/paraglide-sveltekit';
 	import '../app.css';
-	import { setUserStateContext } from '$lib/auth/user.svelte';
+	import { userState } from '$lib/auth/user.svelte';
 	import Header from '$lib/components/header/Header.svelte';
 	import Footer from '$lib/components/footer/Footer.svelte';
 	let { children } = $props();
 
-	setUserStateContext();
+	userState.validateTime();
 </script>
 
 <ParaglideJS {i18n}>

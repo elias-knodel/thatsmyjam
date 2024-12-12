@@ -9,6 +9,8 @@ export class TopTrackItems {
 	page: number = 1;
 	filter: Set<string> = new Set();
 
+	error: number = 5;
+
 	timeSpan = 'short_term';
 
 	constructor() {
@@ -25,15 +27,21 @@ export class TopTrackItems {
 	 * Will get executed by an effect when this.topItems.length or this.locked changes
 	 */
 	fetchItemsWhenBelowThreshhold() {
-		while (this.#topItems.length < 13 && !this.locked) {
+		while (this.#topItems.length < 13 && !this.locked && this.error > 1) {
+			this.error = this.error - 1;
+
 			this.locked = true;
 			this.fetchItemsWithFilter()
 				.then((items) => {
 					this.#topItems.push(...items);
+					this.error = this.error + 1;
 				})
 				.finally(() => {
 					++this.page;
 					this.locked = false;
+				})
+				.catch((errorMsg) => {
+					this.error = 1;
 				});
 		}
 	}
@@ -75,6 +83,11 @@ export class TopTrackItems {
 
 	async fetchItemsWithFilter() {
 		const newTopItems = (await fetchUserTopItems(this.page, this.timeSpan)).items;
+
+		if (newTopItems === undefined) {
+			this.error = 1;
+			throw new Error('Fetch failed, please login again.');
+		}
 
 		const tmpArray = [];
 		for (let i = 0; i < newTopItems.length; i++) {

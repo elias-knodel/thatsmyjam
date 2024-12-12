@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { getUserStateContext } from '$lib/auth/user.svelte';
-	import { redirectToAuthCodeFlow } from '$lib/spotify/auth.svelte';
-
-	const user = getUserStateContext();
+	import { userState } from '$lib/auth/user.svelte';
+	import { redirectToAuthCodeFlow } from '$lib/spotify/auth-tokens';
 </script>
 
 <div class="">
-	{#if !user.data.loggedIn}
+	{#if !userState.data.loggedIn}
 		<section id="profile">
-			<button onclick="{redirectToAuthCodeFlow}"
-				class="bg-[#1db954] flex rounded-md sm:px-8 px-4 py-2 hover:bg-opacity-80 focus:outline-none"
+			<button
+				onclick={redirectToAuthCodeFlow}
+				class="flex rounded-md bg-[#1db954] px-4 py-2 hover:bg-opacity-80 focus:outline-none sm:px-8"
 				>Sign in with Spotify</button
 			>
 		</section>
@@ -19,7 +18,7 @@
 				Logged in as: <span class="font-bold">"placeholder"</span>
 			</h2>
 
-			<button onclick="{() => user.logOut()}">Log out</button>
+			<button onclick={() => userState.logOut()}>Log out</button>
 		</section>
 	{/if}
 </div>
