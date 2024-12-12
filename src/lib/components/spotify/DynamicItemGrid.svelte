@@ -57,11 +57,17 @@
 </script>
 
 <div class="flex-inline flex">
-	<h1 class="text-xl">Your Jam:</h1>
-
+	<!-- <h1 class="text-xl">Your Jam:</h1> -->
+	<label class="text-xl" for="affinity-selector"
+		>Select your <span class="italic">affinity</span> range:</label
+	>
 	<span>&emsp;&emsp;</span>
-
-	<select class="text-gray-900" bind:value={selectedTimeRange}>
+	<select
+		id="affinity-selector"
+		name="affinity-selector"
+		class="text-gray-900"
+		bind:value={selectedTimeRange}
+	>
 		{#each timeRangeOptions as timeRange}
 			<option value={timeRange}>
 				{timeRange.text}
